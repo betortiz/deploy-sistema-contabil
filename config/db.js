@@ -6,6 +6,7 @@ const connectDB = async () => {
     console.log(`Conneted To Mongodb Databse ${conn.connection.host}`);
   } catch (error) {
     console.log(`Erro in Mongodb ${error}`);
+    process.exit(1);
   }
 };
 
