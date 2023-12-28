@@ -28,4 +28,9 @@ router.get("/user-auth", requireSignIn, (req, res) => {
   res.status(200).send({ ok: true});
 });
 
+// Protected User route auth
+router.get("/register", requireSignIn, (req, res) => {
+  res.status(200).send({ ok: true});
+});
+
 export default router;
