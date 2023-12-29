@@ -28,8 +28,8 @@ router.get("/user-auth", requireSignIn, (req, res) => {
   res.status(200).send({ ok: true});
 });
 
-// Protected User route auth
-router.get("/register", requireSignIn, (req, res) => {
+// Protected Admin route auth
+router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
   res.status(200).send({ ok: true});
 });
 
