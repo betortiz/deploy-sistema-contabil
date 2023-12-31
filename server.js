@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import patrimonyRoute from "./routes/patrimonyRoute.js";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, './client/build')));
 
 //routes
 app.use("/api/auth", authRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/patrimony", patrimonyRoute);
 
 //rest api
 app.use("*", (req, res) => {
