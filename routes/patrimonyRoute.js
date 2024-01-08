@@ -38,7 +38,7 @@ router.put(
 router.get("/get-patrimony", getPatrimonyController);
 
 //single product
-router.get("/single-patrimony/:slug", getSinglePatrimonyController);
+router.get("/single-patrimony/:_id", getSinglePatrimonyController);
 
 //delete rproduct
 router.delete(

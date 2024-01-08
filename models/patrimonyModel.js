@@ -3,13 +3,25 @@ import mongoose, { mongo } from "mongoose";
 const patrimonySchema = new mongoose.Schema({
   slug: {
     type: String,
-    lowercase: true,
+    required: true,
   },
   description: {
     type: String,
     required: true,
   },
+  dtNota: {
+    type: String,
+    required: true,
+  },
   brand: {
+    type: String,
+    required: true,
+  },
+  nota: {
+    type: Number,
+    required: true,
+  },
+  fornecedor: {
     type: String,
     required: true,
   },
@@ -22,7 +34,7 @@ const patrimonySchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: mongoose.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
     required: true,
   },

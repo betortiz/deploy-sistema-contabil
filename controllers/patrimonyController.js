@@ -4,8 +4,7 @@ import slugify from "slugify";
 
 export const createPatrimonyController = async (req, res) => {
   try {
-    const { description, brand, model, year, category, price} =
-      req.fields;
+    const { description, brand, model, year, category, price, dtNota, nota, fornecedor } = req.fields;
 
     //alidation
     switch (true) {
@@ -21,6 +20,12 @@ export const createPatrimonyController = async (req, res) => {
         return res.status(500).send({ error: "O modelo é obrigatório" });
       case !year:
         return res.status(500).send({ error: "O ano é obrigatório" });
+      case !dtNota:
+        return res.status(500).send({ error: "A data da nota é obrigatório" });
+      case !nota:
+        return res.status(500).send({ error: "O número da nota é obrigatório" });
+      case !fornecedor:
+        return res.status(500).send({ error: "O fornecedor é obrigatório" });
     }
 
     const patrimony = new patrimonyModel({
@@ -71,21 +76,17 @@ export const getPatrimonyController = async (req, res) => {
 
 // get single product
 export const getSinglePatrimonyController = async (req, res) => {
-
-  var { slug }= req.params.slug;
   try {
-    const patrimony = await patrimonyModel
-      .findOne( slug )
-      .populate("category");
-
+    const pId = req.params._id;
+    const patrimony = await patrimonyModel.findById(pId).populate("category");
     res.status(200).send({
       success: true,
-      message: "Patrimonio encontrado",
+      message: "Patrimonio listado com sucesso",
       patrimony,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send({
+    res.status(400).send({
       success: false,
       message: "Erro ao listar patrimonio",
       error,
@@ -111,10 +112,10 @@ export const deletePatrimonyController = async (req, res) => {
   }
 };
 
-//upate producta
+//update producta
 export const updatePatrimonyController = async (req, res) => {
   try {
-    const { description, brand, model, year, category, price } = req.fields;
+    const { description, brand, model, year, category, price, dtNota, nota, fornecedor } = req.fields;
 
     //alidation
     switch (true) {
@@ -130,8 +131,13 @@ export const updatePatrimonyController = async (req, res) => {
         return res.status(500).send({ error: "O modelo é obrigatório" });
       case !year:
         return res.status(500).send({ error: "O ano é obrigatório" });
+      case !dtNota:
+        return res.status(500).send({ error: "A data da nota é obrigatório" });
+      case !nota:
+        return res.status(500).send({ error: "O número da nota é obrigatório" });
+      case !fornecedor:
+        return res.status(500).send({ error: "O fornecedor é obrigatório" });
     }
-
     const patrimony = await patrimonyModel.findByIdAndUpdate(
       req.params.pid,
       { ...req.fields, slug: slugify(description) },
@@ -223,13 +229,12 @@ export const searchPatrimonyController = async (req, res) => {
   try {
     const { keyword } = req.params;
     const resutls = await patrimonyModel
+    // buscar por qualquer item
       .find({
         $or: [
-          { name: { $regex: keyword, $options: "i" } },
           { description: { $regex: keyword, $options: "i" } },
         ],
       })
-      .select("-photo");
     res.json(resutls);
   } catch (error) {
     console.log(error);
@@ -247,10 +252,9 @@ export const realtedPatrimonyController = async (req, res) => {
     const { pid, cid } = req.params;
     const patrimony = await patrimonyModel
       .find({
-        category: cid,
+        category: cid,        
         _id: { $ne: pid },
       })
-      .select("-photo")
       .limit(3)
       .populate("category");
     res.status(200).send({
