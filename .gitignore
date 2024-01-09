@@ -130,7 +130,3 @@ out
 
 # arquivos que não devem ser enviados para o github
 /AdminLTE-3.2.0
-/client/build
-/client/public/dist
-/client/public/images
-/client/public/plugins
