@@ -4,28 +4,37 @@ import slugify from "slugify";
 
 export const createPatrimonyController = async (req, res) => {
   try {
-    const { description, brand, model, year, category, price, dtNota, nota, fornecedor } = req.fields;
+    const {
+      category,
+      description,
+      identifier,
+      nota,
+      dtNota,
+      location,
+      financiado,
+      vTotal,
+      vPago,
+      vAPagar,
+    } = req.fields;
 
     //alidation
     switch (true) {
       case !description:
         return res.status(500).send({ error: "Descrição é obrigatório" });
-      case !price:
-        return res.status(500).send({ error: "O preço é obrigatório" });
+      case !vTotal:
+        return res.status(500).send({ error: "O valor toral é obrigatório" });
       case !category:
         return res.status(500).send({ error: "Categoria é obrigatório" });
-      case !brand:
-        return res.status(500).send({ error: "A marca é obrigatório" });
-      case !model:
-        return res.status(500).send({ error: "O modelo é obrigatório" });
-      case !year:
-        return res.status(500).send({ error: "O ano é obrigatório" });
+      case !nota:
+        return res
+          .status(500)
+          .send({ error: "A numero da nota é obrigatório" });
       case !dtNota:
         return res.status(500).send({ error: "A data da nota é obrigatório" });
-      case !nota:
-        return res.status(500).send({ error: "O número da nota é obrigatório" });
-      case !fornecedor:
-        return res.status(500).send({ error: "O fornecedor é obrigatório" });
+      case !financiado:
+        return res.status(500).send({ error: "Financiador é obrigatório" });
+      case !identifier:
+        return res.status(500).send({ error: "O identificador é obrigatório" });
     }
 
     const patrimony = new patrimonyModel({
@@ -115,28 +124,37 @@ export const deletePatrimonyController = async (req, res) => {
 //update producta
 export const updatePatrimonyController = async (req, res) => {
   try {
-    const { description, brand, model, year, category, price, dtNota, nota, fornecedor } = req.fields;
+    const {
+      category,
+      description,
+      identifier,
+      nota,
+      dtNota,
+      location,
+      financiado,
+      vTotal,
+      vPago,
+      vAPagar,
+    } = req.fields;
 
     //alidation
     switch (true) {
       case !description:
         return res.status(500).send({ error: "Descrição é obrigatório" });
-      case !price:
-        return res.status(500).send({ error: "O preço é obrigatório" });
+      case !vTotal:
+        return res.status(500).send({ error: "O valor toral é obrigatório" });
       case !category:
         return res.status(500).send({ error: "Categoria é obrigatório" });
-      case !brand:
-        return res.status(500).send({ error: "A marca é obrigatório" });
-      case !model:
-        return res.status(500).send({ error: "O modelo é obrigatório" });
-      case !year:
-        return res.status(500).send({ error: "O ano é obrigatório" });
+      case !nota:
+        return res
+          .status(500)
+          .send({ error: "A numero da nota é obrigatório" });
       case !dtNota:
         return res.status(500).send({ error: "A data da nota é obrigatório" });
-      case !nota:
-        return res.status(500).send({ error: "O número da nota é obrigatório" });
-      case !fornecedor:
-        return res.status(500).send({ error: "O fornecedor é obrigatório" });
+      case !financiado:
+        return res.status(500).send({ error: "Financiador é obrigatório" });
+      case !identifier:
+        return res.status(500).send({ error: "O identificador é obrigatório" });
     }
     const patrimony = await patrimonyModel.findByIdAndUpdate(
       req.params.pid,
@@ -229,12 +247,10 @@ export const searchPatrimonyController = async (req, res) => {
   try {
     const { keyword } = req.params;
     const resutls = await patrimonyModel
-    // buscar por qualquer item
+      // buscar por qualquer item
       .find({
-        $or: [
-          { description: { $regex: keyword, $options: "i" } },
-        ],
-      })
+        $or: [{ description: { $regex: keyword, $options: "i" } }],
+      });
     res.json(resutls);
   } catch (error) {
     console.log(error);
@@ -252,7 +268,7 @@ export const realtedPatrimonyController = async (req, res) => {
     const { pid, cid } = req.params;
     const patrimony = await patrimonyModel
       .find({
-        category: cid,        
+        category: cid,
         _id: { $ne: pid },
       })
       .limit(3)

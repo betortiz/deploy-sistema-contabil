@@ -5,15 +5,16 @@ const patrimonySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
   description: {
     type: String,
     required: true,
   },
-  dtNota: {
-    type: String,
-    required: true,
-  },
-  brand: {
+  identifier: {
     type: String,
     required: true,
   },
@@ -21,26 +22,30 @@ const patrimonySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  fornecedor: {
+  dtNota: {
     type: String,
     required: true,
   },
-  model: {
+  location: {
+    type: String,
+    default: "Não informado",
+    required: true,
+  },
+  financiado: {
     type: String,
     required: true,
   },
-  year: {
+  vTotal: {
     type: Number,
     required: true,
   },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-    required: true,
-  },
-  price: {
+  vPago: {
     type: Number,
-    required: true,
+    default: 0,
+  },
+  vAPagar: {
+    type: Number,
+    default: 0,
   },
 });
 
