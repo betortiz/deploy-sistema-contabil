@@ -129,4 +129,5 @@ out
 .pnp.*
 
 # arquivos que não devem ser enviados para o github
+## depois que fazer o clone do projeto, execute o comando abaixo para que o git ignore os arquivos
 /AdminLTE-3.2.0
