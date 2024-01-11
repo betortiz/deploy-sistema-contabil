@@ -14,9 +14,13 @@ const patrimonySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  identifier: {
-    type: String,
-    required: true,
+  divBruno: {
+    type: Number,
+    default: 0,
+  },
+  divAna: {
+    type: Number,
+    default: 0,
   },
   nota: {
     type: Number,

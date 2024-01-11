@@ -2,12 +2,14 @@ import patrimonyModel from "../models/patrimonyModel.js";
 import categoryModel from "../models/categoryModel.js";
 import slugify from "slugify";
 
+// create patrimony
 export const createPatrimonyController = async (req, res) => {
   try {
     const {
       category,
       description,
-      identifier,
+      divAna,
+      divBruno,
       nota,
       dtNota,
       location,
@@ -17,7 +19,7 @@ export const createPatrimonyController = async (req, res) => {
       vAPagar,
     } = req.fields;
 
-    //alidation
+    //Validation
     switch (true) {
       case !description:
         return res.status(500).send({ error: "Descrição é obrigatório" });
@@ -33,8 +35,6 @@ export const createPatrimonyController = async (req, res) => {
         return res.status(500).send({ error: "A data da nota é obrigatório" });
       case !financiado:
         return res.status(500).send({ error: "Financiador é obrigatório" });
-      case !identifier:
-        return res.status(500).send({ error: "O identificador é obrigatório" });
     }
 
     const patrimony = new patrimonyModel({
@@ -58,7 +58,7 @@ export const createPatrimonyController = async (req, res) => {
   }
 };
 
-//get all products
+//get all patrimony
 export const getPatrimonyController = async (req, res) => {
   try {
     const patrimony = await patrimonyModel
@@ -83,7 +83,7 @@ export const getPatrimonyController = async (req, res) => {
   }
 };
 
-// get single product
+// get single patrimony
 export const getSinglePatrimonyController = async (req, res) => {
   try {
     const pId = req.params._id;
@@ -103,7 +103,7 @@ export const getSinglePatrimonyController = async (req, res) => {
   }
 };
 
-//delete controller
+//delete patrimony
 export const deletePatrimonyController = async (req, res) => {
   try {
     await patrimonyModel.findByIdAndDelete(req.params.pid);
@@ -121,13 +121,14 @@ export const deletePatrimonyController = async (req, res) => {
   }
 };
 
-//update producta
+//update patrimony
 export const updatePatrimonyController = async (req, res) => {
   try {
     const {
       category,
       description,
-      identifier,
+      divAna,
+      divBruno,
       nota,
       dtNota,
       location,
@@ -137,7 +138,7 @@ export const updatePatrimonyController = async (req, res) => {
       vAPagar,
     } = req.fields;
 
-    //alidation
+    //Validation
     switch (true) {
       case !description:
         return res.status(500).send({ error: "Descrição é obrigatório" });
@@ -153,8 +154,6 @@ export const updatePatrimonyController = async (req, res) => {
         return res.status(500).send({ error: "A data da nota é obrigatório" });
       case !financiado:
         return res.status(500).send({ error: "Financiador é obrigatório" });
-      case !identifier:
-        return res.status(500).send({ error: "O identificador é obrigatório" });
     }
     const patrimony = await patrimonyModel.findByIdAndUpdate(
       req.params.pid,
@@ -174,137 +173,6 @@ export const updatePatrimonyController = async (req, res) => {
       success: false,
       error,
       message: "Erro ao atualizar patrimonio",
-    });
-  }
-};
-
-// filters
-export const patrimonyFiltersController = async (req, res) => {
-  try {
-    const { checked, radio } = req.body;
-    let args = {};
-    if (checked.length > 0) args.category = checked;
-    if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
-    const patrimony = await patrimonyModel.find(args);
-    res.status(200).send({
-      success: true,
-      patrimony,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      success: false,
-      message: "Erro ao filtrar patrimonios",
-      error,
-    });
-  }
-};
-
-// product count
-export const patrimonyCountController = async (req, res) => {
-  try {
-    const total = await patrimonyModel.find({}).estimatedDocumentCount();
-    res.status(200).send({
-      success: true,
-      total,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      message: "Error in product count",
-      error,
-      success: false,
-    });
-  }
-};
-
-// product list base on page
-export const patrimonyListController = async (req, res) => {
-  try {
-    const perPage = 6;
-    const page = req.params.page ? req.params.page : 1;
-    const patrimony = await patrimonyModel
-      .find({})
-      .skip((page - 1) * perPage)
-      .limit(perPage)
-      .sort({ createdAt: -1 });
-    res.status(200).send({
-      success: true,
-      patrimony,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      success: false,
-      message: "error in per page ctrl",
-      error,
-    });
-  }
-};
-
-// search product
-export const searchPatrimonyController = async (req, res) => {
-  try {
-    const { keyword } = req.params;
-    const resutls = await patrimonyModel
-      // buscar por qualquer item
-      .find({
-        $or: [{ description: { $regex: keyword, $options: "i" } }],
-      });
-    res.json(resutls);
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      success: false,
-      message: "Error In Search Product API",
-      error,
-    });
-  }
-};
-
-// similar products
-export const realtedPatrimonyController = async (req, res) => {
-  try {
-    const { pid, cid } = req.params;
-    const patrimony = await patrimonyModel
-      .find({
-        category: cid,
-        _id: { $ne: pid },
-      })
-      .limit(3)
-      .populate("category");
-    res.status(200).send({
-      success: true,
-      patrimony,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      success: false,
-      message: "error while geting related product",
-      error,
-    });
-  }
-};
-
-// get prdocyst by catgory
-export const patrimonyCategoryController = async (req, res) => {
-  try {
-    const category = await categoryModel.findOne({ slug: req.params.slug });
-    const patrimony = await patrimonyModel
-      .find({ category })
-      .populate("category");
-    res.status(200).send({
-      success: true,
-      category,
-      patrimony,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      success: false,
-      error,
-      message: "Erro ao listar patrimonios por categoria",
     });
   }
 };
