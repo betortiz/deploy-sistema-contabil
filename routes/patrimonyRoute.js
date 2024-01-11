@@ -5,11 +5,6 @@ import {
   getPatrimonyController,
   getSinglePatrimonyController,
   patrimonyCategoryController,
-  patrimonyCountController,
-  patrimonyFiltersController,
-  patrimonyListController,
-  realtedPatrimonyController,
-  searchPatrimonyController,
   updatePatrimonyController,
 } from "../controllers/patrimonyController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -47,21 +42,6 @@ router.delete(
   isAdmin,
   deletePatrimonyController
 );
-
-//filter product
-router.post("/patrimony-filters", patrimonyFiltersController);
-
-//product count
-router.get("/patrimony-count", patrimonyCountController);
-
-//product per page
-router.get("/patrimony-list/:page", patrimonyListController);
-
-//search product
-router.get("/search/:keyword", searchPatrimonyController);
-
-//similar product
-router.get("/related-patrimony/:pid/:cid", realtedPatrimonyController);
 
 //category wise product
 router.get("/patrimony-category/:slug", patrimonyCategoryController);

@@ -176,3 +176,25 @@ export const updatePatrimonyController = async (req, res) => {
     });
   }
 };
+
+// get prdocyst by catgory
+export const patrimonyCategoryController = async (req, res) => {
+  try {
+    const category = await categoryModel.findOne({ slug: req.params.slug });
+    const patrimony = await patrimonyModel
+      .find({ category })
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      category,
+      patrimony,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      error,
+      message: "Erro ao listar patrimonios por categoria",
+    });
+  }
+};
