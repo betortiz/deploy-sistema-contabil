@@ -64,9 +64,6 @@ export const getPatrimonyController = async (req, res) => {
     const patrimony = await patrimonyModel
       .find({})
       .populate("category")
-      .limit(12)
-      .sort({ createdAt: -1 });
-
     res.status(200).send({
       success: true,
       counTotal: patrimony.length,
