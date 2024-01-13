@@ -79,7 +79,7 @@ export const categoryControlller = async (req, res) => {
 
 // single category
 export const singleCategoryController = async (req, res) => {
-  var { id } = req.params.slug;
+  var { id } = req.params._id;
   try {
     const category = await categoryModel.findOne(id);
     res.status(200).send({
