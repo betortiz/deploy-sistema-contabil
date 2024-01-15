@@ -31,7 +31,7 @@ router.put(
 router.get("/get-category", categoryControlller);
 
 //single category
-router.get("/single-category/:slug", singleCategoryController);
+router.get("/single-category/:id", singleCategoryController);
 
 //delete category
 router.delete(

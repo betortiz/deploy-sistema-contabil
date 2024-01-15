@@ -4,6 +4,7 @@ import {
   deletePatrimonyController,
   getPatrimonyController,
   getSinglePatrimonyController,
+  patrimonyCategoryController,
   updatePatrimonyController,
 } from "../controllers/patrimonyController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -41,5 +42,8 @@ router.delete(
   isAdmin,
   deletePatrimonyController
 );
+
+//category wise product
+router.get("/patrimony-category/:slug", patrimonyCategoryController);
 
 export default router;
