@@ -27,8 +27,6 @@ export const createPatrimonyController = async (req, res) => {
         return res.status(500).send({ error: "Categoria é obrigatório" });
       case !dtNota:
         return res.status(500).send({ error: "A data da nota é obrigatório" });
-      case !financiado:
-        return res.status(500).send({ error: "Financiador é obrigatório" });
     }
 
     const patrimony = new patrimonyModel({
@@ -137,8 +135,6 @@ export const updatePatrimonyController = async (req, res) => {
         return res.status(500).send({ error: "Categoria é obrigatório" });
       case !dtNota:
         return res.status(500).send({ error: "A data da nota é obrigatório" });
-      case !financiado:
-        return res.status(500).send({ error: "Financiador é obrigatório" });
     }
     const patrimony = await patrimonyModel.findByIdAndUpdate(
       req.params.pid,
