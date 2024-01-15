@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const patrimonySchema = new mongoose.Schema({
   slug: {
@@ -6,7 +6,7 @@ const patrimonySchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.ObjectId,
     ref: "Category",
     required: true,
   },
@@ -24,7 +24,7 @@ const patrimonySchema = new mongoose.Schema({
   },
   nota: {
     type: Number,
-    required: true,
+    default: 0,
   },
   dtNota: {
     type: String,
@@ -33,15 +33,14 @@ const patrimonySchema = new mongoose.Schema({
   location: {
     type: String,
     default: "Não informado",
-    required: true,
   },
   financiado: {
     type: String,
-    required: true,
   },
   vTotal: {
     type: Number,
-    required: true,
+    default: 0,
+
   },
   vPago: {
     type: Number,

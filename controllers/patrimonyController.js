@@ -23,14 +23,8 @@ export const createPatrimonyController = async (req, res) => {
     switch (true) {
       case !description:
         return res.status(500).send({ error: "Descrição é obrigatório" });
-      case !vTotal:
-        return res.status(500).send({ error: "O valor toral é obrigatório" });
       case !category:
         return res.status(500).send({ error: "Categoria é obrigatório" });
-      case !nota:
-        return res
-          .status(500)
-          .send({ error: "A numero da nota é obrigatório" });
       case !dtNota:
         return res.status(500).send({ error: "A data da nota é obrigatório" });
       case !financiado:
@@ -139,14 +133,8 @@ export const updatePatrimonyController = async (req, res) => {
     switch (true) {
       case !description:
         return res.status(500).send({ error: "Descrição é obrigatório" });
-      case !vTotal:
-        return res.status(500).send({ error: "O valor toral é obrigatório" });
       case !category:
         return res.status(500).send({ error: "Categoria é obrigatório" });
-      case !nota:
-        return res
-          .status(500)
-          .send({ error: "A numero da nota é obrigatório" });
       case !dtNota:
         return res.status(500).send({ error: "A data da nota é obrigatório" });
       case !financiado:
