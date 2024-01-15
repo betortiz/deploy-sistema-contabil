@@ -79,9 +79,9 @@ export const categoryControlller = async (req, res) => {
 
 // single category
 export const singleCategoryController = async (req, res) => {
-  var { id } = req.params._id;
+  var { slug } = req.params.slug;
   try {
-    const category = await categoryModel.findOne(id);
+    const category = await categoryModel.findOne(slug);
     res.status(200).send({
       success: true,
       message: "Categoria listada com sucesso",
